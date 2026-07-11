@@ -1,0 +1,139 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-saffron: var(--saffron);
+  --color-saffron-deep: var(--saffron-deep);
+  --color-maroon: var(--maroon);
+  --color-maroon-dark: var(--maroon-dark);
+  --color-gold: var(--gold);
+  --color-cream: var(--cream);
+  --color-saffron-soft: var(--saffron-soft);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+
+  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-gujarati: "Noto Sans Gujarati", "Manrope", sans-serif;
+  --font-numeric: "Inter", "Manrope", sans-serif;
+}
+
+:root {
+  --radius: 0.75rem;
+
+  --saffron: #d97706;
+  --saffron-deep: #b45309;
+  --maroon: #7f1d1d;
+  --maroon-dark: #5f1717;
+  --gold: #d6a84b;
+  --cream: #fff9f0;
+  --saffron-soft: #fff3e0;
+  --success: #15803d;
+  --success-soft: #dcfce7;
+  --danger: #b91c1c;
+  --danger-soft: #fee2e2;
+
+  --background: #fff9f0;
+  --foreground: #2a2420;
+  --card: #ffffff;
+  --card-foreground: #2a2420;
+  --popover: #ffffff;
+  --popover-foreground: #2a2420;
+  --primary: #d97706;
+  --primary-foreground: #ffffff;
+  --secondary: #fff3e0;
+  --secondary-foreground: #7f1d1d;
+  --muted: #fff3e0;
+  --muted-foreground: #6b625b;
+  --accent: #fff3e0;
+  --accent-foreground: #7f1d1d;
+  --destructive: #b91c1c;
+  --destructive-foreground: #ffffff;
+  --border: #eadccb;
+  --input: #eadccb;
+  --ring: #d97706;
+
+  --sidebar: #ffffff;
+  --sidebar-foreground: #2a2420;
+  --sidebar-primary: #d97706;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #fff3e0;
+  --sidebar-accent-foreground: #7f1d1d;
+  --sidebar-border: #eadccb;
+  --sidebar-ring: #d97706;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  html,
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  body {
+    overflow-x: hidden;
+  }
+  .font-gujarati {
+    font-family: var(--font-gujarati);
+  }
+  .font-numeric {
+    font-family: var(--font-numeric);
+    font-variant-numeric: tabular-nums;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    color: var(--maroon);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  button,
+  [role="button"] {
+    min-height: unset;
+  }
+}
+
+@layer utilities {
+  .bg-cream-gradient {
+    background: linear-gradient(180deg, #fff9f0 0%, #fff3e0 100%);
+  }
+  .mandala-bg {
+    background-image:
+      radial-gradient(circle at 20% 10%, rgba(217, 119, 6, 0.06) 0, transparent 40%),
+      radial-gradient(circle at 80% 90%, rgba(127, 29, 29, 0.05) 0, transparent 45%);
+  }
+}
