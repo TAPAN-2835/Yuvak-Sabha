@@ -16,7 +16,7 @@ export function leaderLoginKey(name: string): string {
 
 /** Expected leader password: normalized first name + 123. */
 export function generateLeaderPassword(name: string): string {
-  const firstName = name.trim().split(/\s+/)[0] ?? "";
+  const firstName = (name.trim().split(/\s+/)[0] ?? "").replace(/bhai$/i, "");
   return `${normalizeLeaderName(firstName)}123`;
 }
 
