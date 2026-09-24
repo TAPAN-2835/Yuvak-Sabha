@@ -5,15 +5,27 @@ import { logFollowup } from "@/services/followupService";
 import { useSettings } from "@/hooks/useQueries";
 import type { Yuvak } from "@/types";
 import { motion } from "framer-motion";
+import { MoreVertical, Check } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 
 export function YuvakCard({
   yuvak,
   groupId,
   leaderName,
+  status,
+  onStatusChange,
 }: {
   yuvak: Yuvak;
   groupId: string;
   leaderName: string;
+  status?: string;
+  onStatusChange?: (status: string) => void;
 }) {
   const { data: settings } = useSettings();
   const tel = telHref(yuvak.mobile);
@@ -37,6 +49,28 @@ export function YuvakCard({
             {formatMobileDisplay(yuvak.mobile)}
           </p>
         </div>
+        <div className="-mt-1 -mr-2">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground">
+                <MoreVertical className="h-4 w-4" />
+                <span className="sr-only">Status</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48">
+              {["Coming", "Not Coming", "Maybe", "Call Not Received"].map((opt) => (
+                <DropdownMenuItem
+                  key={opt}
+                  className="flex items-center justify-between"
+                  onClick={() => onStatusChange?.(opt)}
+                >
+                  {opt}
+                  {status === opt && <Check className="h-4 w-4" />}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       </div>
       {yuvak.mobile ? (
         <div className="mt-3 grid grid-cols-2 gap-2">
@@ -56,7 +90,7 @@ export function YuvakCard({
             onClick={() => void logFollowup(yuvak.id, groupId, leaderName, "whatsapp")}
           >
             <a href={wa!} target="_blank" rel="noreferrer" aria-label={`WhatsApp ${yuvak.name}`}>
-              <MessageCircle className="mr-1.5 h-4 w-4" /> WhatsApp
+              <WhatsAppIcon className="mr-1.5 h-4 w-4" /> WhatsApp
             </a>
           </Button>
         </div>

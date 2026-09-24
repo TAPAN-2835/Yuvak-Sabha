@@ -12,6 +12,7 @@ import { birthdaysToday } from "@/services/yuvakService";
 import { useYuvaksByGroup, useTodayFollowups, useGroups } from "@/hooks/useQueries";
 import { ListSkeleton } from "@/components/LoadingSkeleton";
 import { QueryErrorState } from "@/components/QueryErrorState";
+import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 
 export const Route = createFileRoute("/group/dashboard")({
   head: () => ({ meta: [{ title: "My Group — BAPS Yuvak Sabha" }] }),
@@ -23,6 +24,7 @@ function LeaderDashboard() {
   const groupId = auth?.groupId ?? "";
   const leaderName = auth?.leaderName ?? "";
   const [q, setQ] = useState("");
+  const [statuses, setStatuses] = useState<Record<string, string>>({});
 
   const { data: groups = [] } = useGroups();
   const {
@@ -90,7 +92,7 @@ function LeaderDashboard() {
           <StatCard
             label="WhatsApp Today"
             value={waToday}
-            icon={<MessageCircle className="h-4 w-4" />}
+            icon={<WhatsAppIcon className="h-4 w-4" />}
             tone="success"
           />
           <StatCard
@@ -129,11 +131,40 @@ function LeaderDashboard() {
         ) : (
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             {filtered.map((y) => (
-              <YuvakCard key={y.id} yuvak={y} groupId={groupId} leaderName={leaderName} />
+              <YuvakCard
+                key={y.id}
+                yuvak={y}
+                groupId={groupId}
+                leaderName={leaderName}
+                status={statuses[y.id]}
+                onStatusChange={(status) => setStatuses((prev) => ({ ...prev, [y.id]: status }))}
+              />
             ))}
           </div>
         )}
       </div>
+
+      {Object.keys(statuses).length > 0 && (
+        <button
+          className="fixed bottom-[80px] right-4 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-success text-white shadow-lg transition-transform hover:scale-105 active:scale-95 md:bottom-8 md:right-8"
+          onClick={() => {
+            const date = new Date().toLocaleDateString("en-GB");
+            const parts = [`*Follow-Up Report* (${date})`, `*By:* ${leaderName}`];
+            sortedYuvaks
+              .filter((y) => statuses[y.id])
+              .forEach((y) => {
+                parts.push(`${y.name} - *${statuses[y.id]}*`);
+              });
+            const text = encodeURIComponent(parts.join("\n"));
+            const target = import.meta.env.VITE_WHATSAPP_REPORT_TARGET;
+            const url = target ? `https://wa.me/${target}?text=${text}` : `https://wa.me/?text=${text}`;
+            window.open(url, "_blank");
+          }}
+          aria-label="Send Report via WhatsApp"
+        >
+          <WhatsAppIcon className="h-7 w-7" />
+        </button>
+      )}
     </LeaderShell>
   );
 }

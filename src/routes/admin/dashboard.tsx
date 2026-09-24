@@ -34,7 +34,7 @@ function AdminDashboard() {
   const { data: activeGroups = [] } = useActiveGroups();
   const { data: latest, isLoading: latestLoading, isError, refetch } = useLatestSabhaSummary();
   const { data: weekly = [] } = useWeeklyStats();
-  const { data: top3 = [] } = useYearlyRanking();
+  const { data: top3 = [] } = useYearlyRanking(new Date().getFullYear());
   const { data: groupSummary = [] } = useGroupWiseSummary(latest?.sabhaId);
 
   const bdays = birthdaysToday(activeYuvaks);
